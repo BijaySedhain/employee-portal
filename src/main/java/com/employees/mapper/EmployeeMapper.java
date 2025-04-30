@@ -54,5 +54,5 @@ public class EmployeeMapper {
         employee.setEmergencyContact(employeeDTO.getEmergencyContact());
 
         return employee;
-
+    }
 }
