@@ -13,7 +13,7 @@ public interface EmployeeMapper {
 
     EmployeeDTO toDto(Employee employee);
 
-    Employee toDao(EmployeeDTO EmployeeDto);
+    Employee toEntity(EmployeeDTO EmployeeDto);
 
     @Mapping(target = "id", ignore = true)
     void updateEmployeeFromDto(EmployeeDTO dto, @MappingTarget Employee employee);
