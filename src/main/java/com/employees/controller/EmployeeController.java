@@ -31,7 +31,7 @@ public class EmployeeController {
         return new ResponseEntity<>(employeeDTO, HttpStatus.OK);
     }
 
-    @GetMapping("/save")
+    @PostMapping("/save")
     public ResponseEntity<EmployeeDTO> saveEmployee(@RequestBody EmployeeDTO employeeDTO) {
         EmployeeDTO savedEmployee = employeeService.saveEmployee(employeeDTO);
         return new ResponseEntity<>(savedEmployee, HttpStatus.CREATED);
