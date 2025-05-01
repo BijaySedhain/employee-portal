@@ -7,6 +7,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,12 +16,23 @@ import java.util.Map;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(EmployeeException.class)
-    protected ResponseEntity<Object> handleEmployeeException(
+    public final ResponseEntity<RestErrorResponse> handleEmployeeException(
+            final EmployeeException exception) {
+        log.error(exception.getMessage());
+        final RestErrorResponse errorResponse = new RestErrorResponse();
+        errorResponse.setTimestamp(Instant.now().toEpochMilli());
+        errorResponse.setMsg(exception.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    protected ResponseEntity<Object> handleMethodArgumentNotValidException(
             final MethodArgumentNotValidException exception) {
         Map<String, String> errorMap = new HashMap<>();
         exception.getBindingResult().getFieldErrors().forEach(error -> {
             errorMap.put(error.getField(), error.getDefaultMessage());
         });
-        return new ResponseEntity<>(errorMap, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(errorMap, HttpStatus.BAD_REQUEST);
     }
+
 }
