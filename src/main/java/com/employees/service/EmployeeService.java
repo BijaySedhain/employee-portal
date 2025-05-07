@@ -24,11 +24,12 @@ public class EmployeeService {
         this.employeeMapper = employeeMapper;
     }
 
-    public List<Employee> getAllEmployees() {
+    public List<EmployeeDTO> getAllEmployees() {
         logger.info("Fetching all employees");
         List<Employee> employees = employeeRepository.findAll();
         logger.info("Successfully fetched {} employees", employees.size());
-        return employees;
+        return employees.stream()
+                .map(employeeMapper::toDto).toList();
     }
 
     public EmployeeDTO getEmployeeById(Long id) {
