@@ -15,9 +15,9 @@ import java.util.Map;
 @Slf4j
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(EmployeeException.class)
+    @ExceptionHandler(EmployeeNotFoundException.class)
     public final ResponseEntity<RestErrorResponse> handleEmployeeException(
-            final EmployeeException exception) {
+            final EmployeeNotFoundException exception) {
         log.error(exception.getMessage());
         final RestErrorResponse errorResponse = new RestErrorResponse();
         errorResponse.setTimestamp(Instant.now().toEpochMilli());
