@@ -7,6 +7,10 @@ import com.employees.mapper.EmployeeMapper;
 import com.employees.repository.EmployeeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,6 +34,12 @@ public class EmployeeService {
         logger.info("Successfully fetched {} employees", employees.size());
         return employees.stream()
                 .map(employeeMapper::toDto).toList();
+    }
+
+    public Page<EmployeeDTO> getEmployees(int page, int size, String sortBy){
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        return employeeRepository.findAll(pageable)
+                .map(employeeMapper::toDto);
     }
 
     public EmployeeDTO getEmployeeById(Long id) {
